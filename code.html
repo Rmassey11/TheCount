@@ -60,17 +60,105 @@
         <div class="row row-cols-1 row-cols-lg-2">
             <div class="col-lg-8">
                 <pre class="line-numbers"><code class="language-javascript">
-                    //Call Hello World
-                    function HelloWorld(){
-                        alert("Hello World");
-                    }
+                    //Get the values from the page
+//starts or controller function
+function getValues(){
+    //get values from the page
+    let startValue = document.getElementById("startValue").value;
+    let endValue = document.getElementById("endValue").value;
+
+    //We need to validate our input
+    //parse into Integers
+    startValue = parseInt(startValue);
+    endValue = parseInt(endValue);
+
+    if(Number.isInteger(startValue) && Number.isInteger(endValue)){
+        //call generateNumbers
+        let numbers = generateNumbers(startValue, endValue);
+        //call displayNumbers
+        displayNumbers(numbers);
+
+    } else {
+        alert("You must enter integers");
+    }
+
+}
+
+//Generate number from startValue to endValue
+//logic function(s)
+function generateNumbers(sValue, eValue){
+
+
+    let numbers = [];
+
+    //we want to get all numbers from start to end
+
+    for(let index = sValue; index <= eValue; index++){
+
+        //this will execute in a loop until index = eValue
+        numbers.push(index);
+    }
+
+
+    return numbers;
+
+}
+
+//display the numbers and mark even numbers bold
+//display or view function
+function displayNumbers(numbers) {
+
+    let templateRows = "";
+    for (let index = 0; index < numbers.length; index++) {
+
+        let className = "even";
+        let number = numbers[index];
+
+        if(number % 2 == 0){
+            className = "even";
+        }
+        else{
+            className = "odd"
+        }
+        //This does not render correctly with Prism, see the source
+        templateRows += `<tr><td class="${className}">${number}</td></tr>`;
+    }
+
+    document.getElementById("results").innerHTML = templateRows
+
+}
                 </code>
                 </pre>
             </div>
             <div class="col-lg-4">
-                <p>The Code is structured in one function.</p>
-                <h5>Hello World</h5>
-                <p>Hello World is a function that displays an alert with a message of "Hello World"</p>
+                <p>The Code is structured in three functions.</p>
+                <h5>getValues</h5>
+                <p>The <span class="boldGold">getValues</span> function pulls the values from the page for use in our
+                    other functions. We declare the variables <span class="var">startValue</span> and <span class="var">endValue</span> which are Block Scoped
+                    into this code block. These values are then changed from Strings into Integers.
+                    A validation is then performed to ensure that the values can become Integers, if not an error Alert
+                    is thrown and the function is terminated. If the validation passes we declare the variable <span class="var">numbers</span>(also Block Scoped)
+                    which in turn calls the function <span class="boldGold">generateNumbers</span> with the <span class="var">startValue</span> and <span class="var">endValue</span> variables passed into it.
+                    Once that function returns we then call the <span class="boldGold">displayNumbers</span> function with the <span class="var">numbers</span> variable passed into it
+                    that is returned from <span class="boldGold">generateNumbers</span>.
+                </p>
+                <h5>generateNumbers</h5>
+                <p>The <span class="boldGold">generateNumbers</span> function takes the values gathered by <span class="boldGold">getValues</span> and creates an array of all the Integers from the
+                    <span class="var">startValue</span> to the <span class="var">endValue</span>. We changed the values passed in from <span class="boldGold">getValues</span> to <span class="var">sValue</span> and <span class="var">eValue</span> to show that values
+                    can be named anything the creator wishes from one function to the next. To begin this function we declare the Block Scoped variable <span class="var">numbers</span>
+                    as an empty array. We then create a "for loop" that begins at the <span class="var">sValue</span>, increases by 1 each time, and ends at <span class="var">eValue</span>. Once the loop exits
+                    the function returns the array as the variable <span class="var">numbers</span> back into the <span class="boldGold">getValues</span> function to then immediately be entered as the parameter for
+                    the <span class="boldGold">displayNumbers</span> function.
+                </p>
+                <h5>displayNumbers</h5>
+                <p>The <span class="boldGold">displayNumbers</span> function takes the array provided by <span class="boldGold">generateNumbers</span> and creates a row in the table provided in our HTML with each Integer it contains.
+                    First we declare a Block Scoped variable <span class="var">templateRows</span> as an empty String. Next we run another "for loop" that iterates the entire length of our array.
+                    During each iteration of our loop we declare a Block Scoped variable <span class="var">className</span> and set it to the string "even" and the variable <span class="var">number</span> which is set to the 
+                    current Integer of the array that our loop is at. Next we check to see if the current Integer is even or not. If it is even the <span class="var">className</span> variable remains as
+                    the string "even". If the current Integer is odd we change the <span class="var">className</span> variable to "odd". After the <span class="var">className</span> variable is decided we then use a template literal
+                    that tells the HTML to create a new table row in its table. This row is assigned a class of "even" or "odd" depending on the check just performed. It is then given its 
+                    table data as the current Integer of our array. If the class "even" is given then our css file makes the number appear bold and large in our table.
+                </p>
             </div>
         </div>
     </div>
